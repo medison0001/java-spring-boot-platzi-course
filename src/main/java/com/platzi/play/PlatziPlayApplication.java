@@ -1,5 +1,6 @@
 package com.platzi.play;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -7,7 +8,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class PlatziPlayApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PlatziPlayApplication.class, args);
+        // Cargar archivo .env
+        Dotenv dotenv = Dotenv.load();
+
+        // Pasar a propiedades de sistema para que Spring las pueda usar
+        System.setProperty("spring.datasource.url", dotenv.get("DB_URL"));
+        System.setProperty("spring.datasource.username", dotenv.get("DB_USERNAME"));
+        System.setProperty("spring.datasource.password", dotenv.get("DB_PASSWORD"));
+
+        SpringApplication.run(PlatziPlayApplication.class, args);
 	}
 
 }
